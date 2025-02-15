@@ -14,6 +14,7 @@ const config = {
     programToKill: process.env.PROGRAM_TO_KILL || "notepad.exe",
     logFile: process.env.LOG_FILE || "modbus.log",
     maxLogSize: parseInt(process.env.MAX_LOG_SIZE, 10) || 5 * 1024 * 1024,
+    maxBackupFiles: parseInt(process.env.MAX_BACKUP_FILES, 10) || 10,
 };
 
 let failCount = 0;
@@ -30,8 +31,30 @@ const manageLogSize = () => {
     if (fs.existsSync(config.logFile)) {
         const stats = fs.statSync(config.logFile);
         if (stats.size > config.maxLogSize) {
-            fs.renameSync(config.logFile, `${config.logFile}.${Date.now()}.bak`);
+            const backupFile = `${config.logFile}.${Date.now()}.bak`;
+            fs.renameSync(config.logFile, backupFile);
+            logMessage(`⚠️ Log file exceeded max size. Renamed to ${backupFile}`);
+            
+            // Keep only a limited number of backup files
+            cleanupOldLogs();
         }
+    }
+};
+
+const cleanupOldLogs = () => {
+    const logFiles = fs.readdirSync('.').filter(file => file.startsWith(config.logFile) && file.endsWith('.bak'));
+    if (logFiles.length > config.maxBackupFiles) {
+        // Sort files by date and remove the oldest ones
+        logFiles.sort((a, b) => fs.statSync(a).mtimeMs - fs.statSync(b).mtimeMs);
+        const filesToDelete = logFiles.slice(0, logFiles.length - config.maxBackupFiles);
+        filesToDelete.forEach(file => {
+            try {
+                fs.unlinkSync(file);
+                logMessage(`🗑️ Deleted old log backup: ${file}`);
+            } catch (err) {
+                logMessage(`⚠️ Error deleting old log backup: ${err.message}`);
+            }
+        });
     }
 };
 

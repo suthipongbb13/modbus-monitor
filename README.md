@@ -47,6 +47,7 @@ MODBUS_READ_INTERVAL=2000
 PROGRAM_TO_KILL=notepad.exe
 LOG_FILE=modbus.log
 MAX_LOG_SIZE=5242880
+MAX_BACKUP_FILES=5
 ```
 
 - `MODBUS_HOST`: IP address of the Modbus device.
@@ -57,7 +58,8 @@ MAX_LOG_SIZE=5242880
 - `MODBUS_READ_INTERVAL`: Delay (in ms) between read attempts.
 - `PROGRAM_TO_KILL`: Name of the program to terminate when failures exceed the retry limit.
 - `LOG_FILE`: File path for logging.
-- `MAX_LOG_SIZE`: Maximum log file size before rotation (in bytes).
+- `MAX_LOG_SIZE`: Maximum log file size before rotation to backup files (in bytes).
+- `MAX_BACKUP_FILES`: Maximum number of backup files.
 
 ## Usage
 Run the application with:
