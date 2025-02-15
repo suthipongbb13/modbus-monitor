@@ -22,14 +22,17 @@ This Node.js application continuously monitors a Modbus device via TCP and takes
 ### Steps
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo/modbus-monitor.git
+   git clone https://github.com/suthipongbb13/modbus-monitor.git
+   ```
+2. Go to the project folder:
+   ```sh
    cd modbus-monitor
    ```
-2. Install dependencies:
+3. Install dependencies:
    ```sh
    npm install
    ```
-3. Create a `.env` file and configure settings (see **Configuration** section).
+4. Create a `.env` file and configure settings (see **Configuration** section).
 
 ## Configuration
 Set the following environment variables in a `.env` file:
