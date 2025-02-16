@@ -2,5 +2,12 @@
    "dependencies": {
       "dotenv": "^16.4.7",
       "modbus-serial": "^8.0.18"
+   },
+   "devDependencies": {
+      "jest": "^29.7.0",
+      "mock-fs": "^5.5.0"
+   },
+   "scripts": {
+      "test": "jest"
    }
 }
